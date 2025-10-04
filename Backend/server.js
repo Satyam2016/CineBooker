@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const { connectDB, sequelize } = require("./config/db");
-
+const db  = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
 
 
 const app = express();
@@ -20,10 +20,21 @@ app.get("/", (req, res) => {
   res.send("Server started");
 });
 
+app.use("/api/auth", authRoutes);
+
 
 const startServer = async () => {
-  await connectDB();
-  app.listen(port, () => console.log(`---> Server running on port ${port}`));
+  try {
+    await db.query("SELECT 1"); // simple test query
+    console.log("---> MySQL Database Connected Successfully!");
+    
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+  } catch (err) {
+    console.error("---> MySQL Connection Failed:", err.message);
+    process.exit(1); // stop server if DB not connected
+  }
 };
 
 startServer();
