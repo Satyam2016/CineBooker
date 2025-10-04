@@ -1,4 +1,7 @@
 import useAuthStore from "../store/useAuthStore";
+import axios from "axios";
+import qs from "qs";
+import { useNavigate  } from "react-router-dom";
 
 export default function Login() {
   const {
@@ -9,16 +12,34 @@ export default function Login() {
     setLoginType,
     login
   } = useAuthStore();
+  const navigate = useNavigate(); 
 
   if (!loginOpen) return null;
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    alert(`Login successful as ${loginType}!\nEmail: ${email}`);
-    login({ email, type: loginType });
+ const handleLogin = async (e) => {
+  e.preventDefault();
+
+  const email = e.target.email.value;
+  const password = e.target.password.value;
+
+  try {
+   const formData = qs.stringify({ email, password });
+
+    const response = await axios.post(
+      "http://localhost:5000/api/auth/login",
+      formData,
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+
+    const { token } = response.data;
+    localStorage.setItem("token", token);
     setLoginOpen(false);
-  };
+    navigate("/customer");
+  } catch (err) {
+    console.error(err);
+    alert(err.response?.data?.message || "Login failed. Please try again.");
+  }
+};
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">

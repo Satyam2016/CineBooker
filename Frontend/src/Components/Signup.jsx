@@ -1,18 +1,44 @@
 
 import useAuthStore from "../store/useAuthStore";
+import axios from "axios";
+import qs from "qs";
+import { redirect } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 
 export default function Signup() {
   const { signupOpen, setSignupOpen, setLoginOpen } = useAuthStore();
+  const navigate = useNavigate();
 
   if (!signupOpen) return null;
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    const name = e.target.name.value;
-    alert(`Signup successful! Welcome, ${name}`);
+  const handleSignup = async (e) => {
+  e.preventDefault();
+  const name = e.target.name.value;
+  const email = e.target.email.value;
+  const password = e.target.password.value;
+  try {
+    const formData = qs.stringify({ name, email, password });
+
+    const response = await axios.post(
+      "http://localhost:5000/api/auth/register",
+      formData,
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+
+
+    const { token } = response.data;
+    localStorage.setItem("token", token);
     setSignupOpen(false);
-    setLoginOpen(true);
-  };
+    navigate("/customer");
+  } catch (error) {
+    console.error(error);
+    if (error.response && error.response.data.message) {
+      alert(`Signup failed: ${error.response.data.message}`);
+    } else {
+      alert("Signup failed. Please try again.");
+    }
+  }
+};
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
