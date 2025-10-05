@@ -6,6 +6,7 @@ import CinemasSection from "./sections/CinemasSection";
 import ScreensSection from "./sections/ScreensSection";
 import MoviesSection from "./sections/MoviesSection";
 import ShowsSection from "./sections/ShowsSection";
+import axios from "axios";
 
 export default function CineBookerDashboard() {
   const [cinemas, setCinemas] = useState([]);
@@ -13,9 +14,30 @@ export default function CineBookerDashboard() {
   const [movies, setMovies] = useState([]);
   const [shows, setShows] = useState([]);
   const [bookings, setBookings] = useState({ 1: [] });
+  const [dashboard, setDashboard] = useState({
+    totalCinemas: 0,
+    totalScreens: 0,
+    activeMovies: 0,
+    bookingsToday: 0,
+  });
 
   const [activeSection, setActiveSection] = useState("overview");
   const [selectedShowId, setSelectedShowId] = useState(null);
+
+  const fetchDashboard = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/admin", {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      });
+      setDashboard(res.data);
+      console.log("Dashboard data:", res.data);
+    } catch (err) {
+      console.error("Failed to fetch dashboard:", err);
+    }
+  };
+  useEffect(() => {
+    fetchDashboard();
+  }, [activeSection]);
 
   function switchSection(section) {
     setActiveSection(section);
@@ -30,10 +52,10 @@ export default function CineBookerDashboard() {
 
           {activeSection === "overview" && (
             <OverviewSection
-              cinemas={cinemas}
-              screens={screens}
-              movies={movies}
-              bookings={bookings}
+              cinemas={dashboard.totalCinemas}
+              screens={dashboard.totalScreens}
+              movies={dashboard.activeMovies}
+              bookings={dashboard.bookingsToday}
             />
           )}
 

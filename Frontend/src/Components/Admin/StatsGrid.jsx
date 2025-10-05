@@ -5,9 +5,9 @@ export default function StatsGrid({ cinemas, screens, movies, bookings }) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-      <Stat icon="🏢" label="Total Cinemas" value={cinemas.length} />
-      <Stat icon="📺" label="Total Screens" value={screens.length} />
-      <Stat icon="🎬" label="Active Movies" value={movies.length} />
+      <Stat icon="🏢" label="Total Cinemas" value={cinemas} />
+      <Stat icon="📺" label="Total Screens" value={screens} />
+      <Stat icon="🎬" label="Active Movies" value={movies} />
       <Stat icon="🎫" label="Bookings Today" value={totalBookingsToday} />
     </div>
   );

@@ -7,6 +7,7 @@ const screenRoutes = require("./routes/screenRoutes");
 const movieRoutes = require("./routes/movieRoutes");
 const showRoutes = require("./routes/showRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 
 
@@ -32,6 +33,7 @@ app.use("/api/screens", screenRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/shows", showRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/admin", adminRoutes);
 
 
 const startServer = async () => {

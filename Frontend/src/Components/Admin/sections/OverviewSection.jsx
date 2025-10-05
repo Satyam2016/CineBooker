@@ -2,6 +2,7 @@ import React from "react";
 import StatsGrid from "../StatsGrid";
 
 export default function OverviewSection({ cinemas, screens, movies, bookings }) {
+     console.log(cinemas, screens, movies, bookings);
   return (
     <section>
       <StatsGrid
