@@ -1,5 +1,3 @@
-# CineBooker
-
 # CineBooker 🎬
 
 CineBooker is a movie booking web application that allows users to browse cinemas, select movies and showtimes, book seats, and manage their bookings. It features a responsive frontend, secure authentication, real-time booking management, and a dashboard for users.
