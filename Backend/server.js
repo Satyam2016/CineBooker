@@ -4,6 +4,7 @@ const db  = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const cinemaRoutes = require("./routes/cinemaRoutes");
 const screenRoutes = require("./routes/screenRoutes");
+const movieRoutes = require("./routes/movieRoutes");
 
 
 const app = express();
@@ -25,11 +26,12 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/cinemas", cinemaRoutes);
 app.use("/api/screens", screenRoutes);
+app.use("/api/movies", movieRoutes);
 
 
 const startServer = async () => {
   try {
-    await db.query("SELECT 1"); // simple test query
+    await db.query("SELECT 1"); 
     console.log("---> MySQL Database Connected Successfully!");
     
     app.listen(port, () => {
@@ -37,7 +39,7 @@ const startServer = async () => {
     });
   } catch (err) {
     console.error("---> MySQL Connection Failed:", err.message);
-    process.exit(1); // stop server if DB not connected
+    process.exit(1); 
   }
 };
 
