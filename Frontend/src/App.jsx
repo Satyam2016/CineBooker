@@ -3,6 +3,7 @@ import LandingPage from "./Pages/LandingPage";
 import CustomerPage from "./Pages/CustomerPage";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import CineBookerDashboard from "./Components/Admin/CineBookerDashboard";
+import Dashboard from "./Pages/Dashboard";
 
 export default function App() {
   return (
@@ -22,6 +23,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <CineBookerDashboard />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/user"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
             </ProtectedRoute>
           }
         />

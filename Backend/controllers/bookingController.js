@@ -1,6 +1,58 @@
 const db = require("../config/db");
 
 
+const getUserBookings = async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const [rows] = await db.query(
+      `SELECT 
+          b.booking_id, 
+          u.name AS user_name, 
+          u.email AS user_email, 
+          s.show_id, 
+          m.title AS movie_title, 
+          m.language AS movie_language,
+          m.genre AS movie_genre,
+          m.duration_minutes,
+          sc.name AS screen_name, 
+          c.name AS cinema_name,
+          c.location AS cinema_location,
+          s.show_time,
+          b.status, 
+          b.booked_at
+       FROM bookings b
+       JOIN users u ON b.user_id = u.user_id
+       JOIN shows s ON b.show_id = s.show_id
+       JOIN movies m ON s.movie_id = m.movie_id
+       JOIN screens sc ON s.screen_id = sc.screen_id
+       JOIN cinemas c ON sc.cinema_id = c.cinema_id
+       WHERE b.user_id = ?
+       ORDER BY b.booked_at DESC`,
+      [user_id]
+    );
+
+    // Fetch seats for each booking separately
+    for (let booking of rows) {
+      const [seats] = await db.query(
+        `SELECT 
+            
+            CONCAT(CHAR(64 + st.row_numbe), st.column_number) AS seat_number
+         FROM booking_seats bs
+         JOIN seats st ON bs.seat_id = CONCAT(CHAR(64 + st.row_numbe), st.column_number)
+         WHERE bs.booking_id = ?
+         ORDER BY st.row_numbe, st.column_number`,
+        [booking.booking_id]
+      );
+      booking.seats = seats;
+    }
+
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error fetching user bookings" });
+  }
+};
+
 const getBookings = async (req, res) => {
   try {
     const [rows] = await db.query(
@@ -32,6 +84,8 @@ const getBookings = async (req, res) => {
     res.status(500).json({ message: "Error fetching bookings" });
   }
 };
+
+
 
 const getBookingById = async (req, res) => {
   try {
@@ -145,6 +199,7 @@ WHERE b.show_id = ? AND b.status = 'CONFIRMED'`,
 
 module.exports = {
   getBookings,
+  getUserBookings,
   getBookingById,
   addBooking,
   updateBooking,

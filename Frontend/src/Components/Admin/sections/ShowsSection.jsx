@@ -39,6 +39,7 @@ export default function ShowsSection() {
       const res = await axios.get(BOOKINGS_API, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
+      console.log("Grouped bookings:", res.data);
       const grouped = res.data.reduce((acc, b) => {
         if (!acc[b.show_id]) acc[b.show_id] = [];
         acc[b.show_id].push(b);

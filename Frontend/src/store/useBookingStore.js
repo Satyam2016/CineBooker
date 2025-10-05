@@ -11,8 +11,11 @@ const useBookingStore = create((set) => ({
   bookedSeats: [],
   confirmation: null,
 
+  bookings: [], // <-- add this to store all bookings
+  setBookings: (bookings) => set({ bookings }),
+
   // Actions
-  setCinemas: (cinemas) => set({ cinemas }), // <-- new action to update cinemas
+  setCinemas: (cinemas) => set({ cinemas }),
 
   selectCinema: (cinema) =>
     set({
@@ -26,8 +29,6 @@ const useBookingStore = create((set) => ({
 
   selectMovie: (movie, showtime) =>
     set({ selectedMovie: movie, selectedShowtime: showtime, selectedSeats: [] }),
-
-  bookedSeats: [],
 
   setBookedSeats: (seats) => set({ bookedSeats: seats }),
 
@@ -44,19 +45,28 @@ const useBookingStore = create((set) => ({
       return { selectedSeats: updated };
     }),
 
-
   confirmBooking: () =>
-    set((state) => ({
-      bookedSeats: [...state.bookedSeats, ...state.selectedSeats],
-      confirmation: {
+    set((state) => {
+      const newBooking = {
+        booking_id: Date.now(), // generate a unique id for the booking
         cinema: state.selectedCinema,
         movie: state.selectedMovie,
         showtime: state.selectedShowtime,
         seats: state.selectedSeats,
         total: state.selectedSeats.length * 250,
-      },
-      selectedSeats: [],
-    })),
+        status: "CONFIRMED",
+        booked_at: new Date().toISOString(),
+      };
+
+      return {
+        bookedSeats: [...state.bookedSeats, ...state.selectedSeats],
+        bookings: [...state.bookings, newBooking], // <-- add new booking
+        confirmation: newBooking,
+        selectedSeats: [],
+      };
+    }),
+
+  addBooking: (booking) => set((state) => ({ bookings: [...state.bookings, booking] })), // <-- optional action to manually add a booking
 
   reset: () =>
     set({
@@ -66,6 +76,7 @@ const useBookingStore = create((set) => ({
       selectedSeats: [],
       bookedSeats: [],
       confirmation: null,
+      bookings: [],
     }),
 }));
 
