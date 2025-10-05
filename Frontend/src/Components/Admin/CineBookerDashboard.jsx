@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import StatsGrid from "./StatsGrid";
 import OverviewSection from "./sections/OverviewSection";
 import CinemasSection from "./sections/CinemasSection";
 import ScreensSection from "./sections/ScreensSection";
 import MoviesSection from "./sections/MoviesSection";
 import ShowsSection from "./sections/ShowsSection";
-import CinemaModal from "./modals/CinemaModal";
-import ScreenModal from "./modals/ScreenModal";
-import MovieModal from "./modals/MovieModal";
 
 export default function CineBookerDashboard() {
   const [cinemas, setCinemas] = useState([]);
@@ -20,10 +16,6 @@ export default function CineBookerDashboard() {
 
   const [activeSection, setActiveSection] = useState("overview");
   const [selectedShowId, setSelectedShowId] = useState(null);
-
-  const [isCinemaModalOpen, setCinemaModalOpen] = useState(false);
-  const [isScreenModalOpen, setScreenModalOpen] = useState(false);
-  const [isMovieModalOpen, setMovieModalOpen] = useState(false);
 
   function switchSection(section) {
     setActiveSection(section);
@@ -70,15 +62,7 @@ export default function CineBookerDashboard() {
             <ShowsSection shows={shows} bookings={bookings} />
           )}
 
-          {isCinemaModalOpen && (
-            <CinemaModal onClose={() => setCinemaModalOpen(false)} />
-          )}
-          {isScreenModalOpen && (
-            <ScreenModal onClose={() => setScreenModalOpen(false)} />
-          )}
-          {isMovieModalOpen && (
-            <MovieModal onClose={() => setMovieModalOpen(false)} />
-          )}
+         
         </main>
       </div>
     </div>

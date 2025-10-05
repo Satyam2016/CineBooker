@@ -5,6 +5,9 @@ const authRoutes = require("./routes/authRoutes");
 const cinemaRoutes = require("./routes/cinemaRoutes");
 const screenRoutes = require("./routes/screenRoutes");
 const movieRoutes = require("./routes/movieRoutes");
+const showRoutes = require("./routes/showRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
+
 
 
 const app = express();
@@ -27,6 +30,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/cinemas", cinemaRoutes);
 app.use("/api/screens", screenRoutes);
 app.use("/api/movies", movieRoutes);
+app.use("/api/shows", showRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 
 const startServer = async () => {
