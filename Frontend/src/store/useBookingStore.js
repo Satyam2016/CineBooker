@@ -27,9 +27,13 @@ const useBookingStore = create((set) => ({
   selectMovie: (movie, showtime) =>
     set({ selectedMovie: movie, selectedShowtime: showtime, selectedSeats: [] }),
 
+  bookedSeats: [],
+
+  setBookedSeats: (seats) => set({ bookedSeats: seats }),
+
   toggleSeat: (seatId) =>
     set((state) => {
-      if (state.bookedSeats.includes(seatId)) return state;
+      if (state.bookedSeats.includes(seatId)) return state; // prevent selecting booked seats
       let updated = [...state.selectedSeats];
       if (updated.includes(seatId)) {
         updated = updated.filter((s) => s !== seatId);
@@ -39,6 +43,7 @@ const useBookingStore = create((set) => ({
       }
       return { selectedSeats: updated };
     }),
+
 
   confirmBooking: () =>
     set((state) => ({
