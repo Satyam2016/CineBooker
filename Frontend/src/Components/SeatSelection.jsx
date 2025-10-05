@@ -9,7 +9,8 @@ const SeatSelection = ({ goBack, showConfirmation }) => {
   return (
     <div className="p-6">
       <button onClick={goBack} className="mb-4 px-4 py-2 border rounded-lg">← Back</button>
-      <h1 className="text-2xl">{selectedMovie?.title} - {selectedShowtime}</h1>
+      <h1>Home / Cinemas / {selectedCinema?.name} / Movies / {selectedMovie?.title} / {selectedMovie?.screen.name}  - {new Date(selectedShowtime?.showTime).toLocaleTimeString()}</h1>
+
       <div className="grid grid-cols-10 gap-2 bg-white/10 p-4 rounded-xl mt-4">
         {seatIds.map((id) => {
           const isSelected = selectedSeats.includes(id);
