@@ -87,7 +87,6 @@ export default function MoviesSection() {
     }
   };
 
-  // Delete movie
   const deleteMovie = async (id) => {
     if (!window.confirm("Are you sure you want to delete this movie?")) return;
 

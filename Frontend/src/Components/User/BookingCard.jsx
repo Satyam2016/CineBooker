@@ -4,17 +4,13 @@ export default function BookingCard({ booking, onCancel, showCancel }) {
   const formattedDate = new Date(booking.booked_at).toLocaleDateString("en-US", {
     weekday: "short", year: "numeric", month: "short", day: "numeric",
   });
-
   function getSeatNumbers(seats) {
   if (!Array.isArray(seats)) return [];
-
-  // Flatten all seat numbers
   const seatNumbers = seats.flatMap((seat) => seat.seat_number?.data || []);
 
   return seatNumbers;
 }
 
-  
 
   return (
     <div className={`rounded-2xl border-2 border-white/20 backdrop-blur-lg bg-white/10 hover:shadow-xl hover:border-yellow-400 transition ${booking.status === "upcoming" ? "border-l-4 border-green-500" : "opacity-80 border-l-4 border-gray-500"}`}>

@@ -31,7 +31,6 @@ const getUserBookings = async (req, res) => {
       [user_id]
     );
 
-    // Fetch seats for each booking separately
     for (let booking of rows) {
       const [seats] = await db.query(
         `SELECT 
@@ -85,8 +84,6 @@ const getBookings = async (req, res) => {
   }
 };
 
-
-
 const getBookingById = async (req, res) => {
   try {
     const [rows] = await db.query(
@@ -136,8 +133,6 @@ const addBooking = async (req, res) => {
     res.status(500).json({ message: "Error adding booking" });
   } 
 };
-
-
 
 
 const updateBooking = async (req, res) => {

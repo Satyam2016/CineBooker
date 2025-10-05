@@ -3,6 +3,7 @@ import axios from "axios";
 import qs from "qs";
 import { useNavigate  } from "react-router-dom";
 
+
 export default function Login() {
   const {
     loginOpen,
@@ -10,7 +11,7 @@ export default function Login() {
     setSignupOpen,
     loginType,
     setLoginType,
-    login
+    login,
   } = useAuthStore();
   const navigate = useNavigate(); 
 
@@ -34,7 +35,10 @@ export default function Login() {
     const { token } = response.data;
     localStorage.setItem("token", token);
     setLoginOpen(false);
-    navigate("/customer");
+    if(email === "Admin@cinebooker.com"){
+      navigate("/admin");
+    }
+    else navigate("/customer");
   } catch (err) {
     console.error(err);
     alert(err.response?.data?.message || "Login failed. Please try again.");

@@ -20,7 +20,6 @@ const SeatSelection = ({ goBack, showConfirmation }) => {
   const seatIds = Array.from({ length: 100 }, (_, i) => `${String.fromCharCode(65 + Math.floor(i / 10))}${(i % 10) + 1}`);
   const total = selectedSeats.length * 250;
 
-  // Fetch booked seats for this show
   useEffect(() => {
     if (!selectedShowtime) return;
 
@@ -29,7 +28,7 @@ const SeatSelection = ({ goBack, showConfirmation }) => {
         const res = await axios.get(`http://localhost:5000/api/bookings/${selectedShowtime.showId}/booked-seats`,
           { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
         );
-        setBookedSeats(res.data); // update store
+        setBookedSeats(res.data); 
         console.log("Booked seats:", res.data);
       } catch (err) {
         console.error("Failed to fetch booked seats:", err);
@@ -46,7 +45,7 @@ const SeatSelection = ({ goBack, showConfirmation }) => {
     setError(null);
 
     try {
-      const user_id = 1; // replace with actual logged-in user
+      const user_id = 1; 
       const show_id = selectedShowtime.showId;
 
       await axios.post("http://localhost:5000/api/bookings", {
@@ -78,7 +77,7 @@ const SeatSelection = ({ goBack, showConfirmation }) => {
       <div className="grid grid-cols-10 gap-2 bg-white/10 p-4 rounded-xl mt-4">
         {seatIds.map((id) => {
           const isSelected = selectedSeats.includes(id);
-          const isBooked = bookedSeats.includes(id); // check if booked
+          const isBooked = bookedSeats.includes(id);
           return (
             <div
               key={id}
@@ -88,7 +87,7 @@ const SeatSelection = ({ goBack, showConfirmation }) => {
                 }`
               }
               onClick={() => {
-                if (isBooked) return; // can't select booked seats
+                if (isBooked) return;
                 if (!isSelected && selectedSeats.length >= 6) {
                   alert("You can select a maximum of 6 seats at a time.");
                   return;
