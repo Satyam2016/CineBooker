@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const db  = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const cinemaRoutes = require("./routes/cinemaRoutes");
 
 
 const app = express();
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/cinemas", cinemaRoutes);
 
 
 const startServer = async () => {

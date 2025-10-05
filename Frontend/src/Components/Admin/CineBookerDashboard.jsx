@@ -12,17 +12,15 @@ import ScreenModal from "./modals/ScreenModal";
 import MovieModal from "./modals/MovieModal";
 
 export default function CineBookerDashboard() {
-  // ⬇ State (cinemas, screens, movies, shows, bookings, etc.)
-  const [cinemas, setCinemas] = useState([]); // empty array initially
+  const [cinemas, setCinemas] = useState([]);
   const [screens, setScreens] = useState([]);
   const [movies, setMovies] = useState([]);
   const [shows, setShows] = useState([]);
-  const [bookings, setBookings] = useState({ 1: [] }); // example booking structure
+  const [bookings, setBookings] = useState({ 1: [] });
 
   const [activeSection, setActiveSection] = useState("overview");
   const [selectedShowId, setSelectedShowId] = useState(null);
 
-  // Modal states
   const [isCinemaModalOpen, setCinemaModalOpen] = useState(false);
   const [isScreenModalOpen, setScreenModalOpen] = useState(false);
   const [isMovieModalOpen, setMovieModalOpen] = useState(false);
